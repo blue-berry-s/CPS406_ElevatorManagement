@@ -5,20 +5,27 @@ import java.util.PriorityQueue;
 public class SpecialModeHandler {
 	private ElevatorManagement manager; 
 	private Elevator elevator;
-	private PriorityQueue<Integer> modeQueue;
-	private FireEmergency fire; 
-	private EmergencyPower outage; 
-	private MedicalEmergency medical; 
+	//private PriorityQueue<Integer> modeQueue;
+	private PriorityQueue<SpecialModes> modeQueue;
+	//private FireEmergency fire; 
+	//private EmergencyPower outage; 
+	//private MedicalEmergency medical; 
 	private BuildingSystem building; 
 	private boolean override = false; 
 	//private Door door; 
 	
-	public SpecialModeHandler() {
-		modeQueue = new PriorityQueue<Integer>();
+	public SpecialModeHandler(BuildingSystem building, ElevatorManagement manager) {
+		//modeQueue = new PriorityQueue<Integer>();
+		this.building = building;
+		this.modeQueue = new PriorityQueue<SpecialModes>();
+		this.manager = manager;
 	}
+	
+	
+	/*
 	//Method to activate a power emergency
-	public void activatePowerEmergency(Elevator elevator) {
-		modeQueue.add(outage.getPriority());
+	public void activatePowerEmergency() {
+		modeQueue.add(outage);
 		outage.activate();
 		
 	}
@@ -94,24 +101,31 @@ public class SpecialModeHandler {
 		else {
 			System.out.println("No Medical Emergency Active, ERROR");
 		}
+	}*/
+	
+	public void addEmergencyModes(SpecialModes mode) {
+		this.modeQueue.add(mode);
 	}
 	
+	
 	//method to handle all emergency modes at once 
-	public void handleEmergencyModes(Floor floor) throws InterruptedException {
+	public void handleEmergencyModes() throws InterruptedException {
 		//activate backup power 
-		if (modeQueue.peek() == 0){
+		SpecialModes check = modeQueue.poll();
+		if (check.getPriority() == 0){
 			if (elevator.isPower() == false && building.getPower() == false)
 			building.setGenerator(true);
 			System.out.println("---BACKUP GENERATOR ACTIVE---");
 			
 		}
-		else if (modeQueue.peek() == 1) {
+		else if (check.getPriority() == 1) {
 			
 			//if fire mode, deactivate all elevators and clear all calls
 			//force doors to remain open
 			for (Elevator e1: manager.getElevators()) {
+					FireEmergency convert = (FireEmergency) check;
 					e1.clearMotion();
-					Call recall = new Call(floor, floor, e1);
+					Call recall = new Call(convert.getRecall(), convert.getRecall(), e1);
 					e1.addMotion(recall);
 					manager.deactivateElevator(e1);
 					
@@ -126,9 +140,10 @@ public class SpecialModeHandler {
 		//deactivate the elevator so it ignores regular calls
 		//clear all current calls and move the elevator 
 		//Need to fix this to take more than just one call
-		else if (modeQueue.peek() == 2) {
+		else if (check.getPriority() == 2) {
+			MedicalEmergency convert = (MedicalEmergency) check;
 			System.out.println("+++Medical Emergency Mode Activated, Proceeding To Emergency Floor");
-			Call medicalCalls = new Call(medical.getCurrent(), medical.getEmergencyFloor(),elevator);
+			Call medicalCalls = new Call(convert.getCurrent(), convert.getEmergencyFloor(),elevator);
 			manager.deactivateElevator(elevator);
 			elevator.clearMotion();
 			elevator.addMotion(medicalCalls);

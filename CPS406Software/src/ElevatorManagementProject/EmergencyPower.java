@@ -2,7 +2,7 @@ package ElevatorManagementProject;
 
 public class EmergencyPower extends SpecialModes {
 	BuildingSystem power; 
-	private static int priority = 0;
+	private static int POWER = 0;
 	
 	//Emergency power constructor, takes floor to say 
 	//which floor the emergency power operation was activated on
@@ -10,6 +10,7 @@ public class EmergencyPower extends SpecialModes {
 		super(current);
 		power.setGenerator(true);
 		this.active = true;
+		super.priority = this.POWER;
 	}
 	
 	//check if individual elevator has power 
