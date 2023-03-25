@@ -10,13 +10,13 @@ public class SpecialModeHandler {
 	//private FireEmergency fire; 
 	//private EmergencyPower outage; 
 	//private MedicalEmergency medical; 
-	private BuildingSystem building; 
+	//private BuildingSystem building; 
 	private boolean override = false; 
 	//private Door door; 
 	
-	public SpecialModeHandler(BuildingSystem building, ElevatorManagement manager) {
+	public SpecialModeHandler(ElevatorManagement manager) {
 		//modeQueue = new PriorityQueue<Integer>();
-		this.building = building;
+		//this.building = building;
 		this.modeQueue = new PriorityQueue<SpecialModes>();
 		this.manager = manager;
 	}
@@ -107,15 +107,39 @@ public class SpecialModeHandler {
 		this.modeQueue.add(mode);
 	}
 	
+	//picks an elevator for MEDICAL EMERGENCY MODE
+	public Elevator pickElevator(Floor floor) {
+		Elevator ele = this.manager.pickElevator(floor);
+		return ele;
+	}
+	
 	
 	//method to handle all emergency modes at once 
 	public void handleEmergencyModes() throws InterruptedException {
 		//activate backup power 
 		SpecialModes check = modeQueue.poll();
 		if (check.getPriority() == 0){
-			if (elevator.isPower() == false && building.getPower() == false)
-			building.setGenerator(true);
-			System.out.println("---BACKUP GENERATOR ACTIVE---");
+			if (check.getBuilding().getPower() == false) {
+				if (check.getBuilding().getGenerator()) {
+					System.out.println("---BACKUP GENERATOR ACTIVE---");
+					System.out.println("---ALL ELEVATORS CURRENTLY ON BACKUP---");
+				}
+				else {
+					System.out.println("---BACKUP GENERATOR INACTIVE---");
+					System.out.println("---ALL ELEVATORS RETURNING TO LOBBY--");
+					for (Elevator e1: manager.getElevators()) {
+						EmergencyPower convert = (EmergencyPower) check;
+						e1.clearMotion();
+						Call recall = new Call(convert.getLobby(), convert.getLobby(), e1);
+						e1.addMotion(recall);
+						manager.deactivateElevator(e1);
+					}
+				}
+			}
+			else {
+				System.out.println("---BUILDING ELECTRICAL SYSTEM STILL ACTIVE---");
+			}
+			
 			
 		}
 		else if (check.getPriority() == 1) {
@@ -143,11 +167,17 @@ public class SpecialModeHandler {
 		else if (check.getPriority() == 2) {
 			MedicalEmergency convert = (MedicalEmergency) check;
 			System.out.println("+++Medical Emergency Mode Activated, Proceeding To Emergency Floor");
-			Call medicalCalls = new Call(convert.getCurrent(), convert.getEmergencyFloor(),elevator);
-			manager.deactivateElevator(elevator);
-			elevator.clearMotion();
-			elevator.addMotion(medicalCalls);
-			System.out.println("Doors Open");
+			Elevator ele = this.pickElevator(convert.getEmergencyFloor());
+			if (ele == null) {
+				System.out.println("NO ELEVATOR IN SERVICE");
+			}
+			else {
+				Call medicalCalls = new Call(convert.getEmergencyFloor(), convert.getEmergencyFloor(),ele);
+				manager.deactivateElevator(ele);
+				manager.addMedicalElevator(ele);
+				elevator.clearMotion();
+				elevator.addMotion(medicalCalls);
+			}
 			
 		}
 		else {

@@ -6,11 +6,13 @@ public class SpecialModes implements Comparable<SpecialModes>{
 	boolean active;
 	int floor;
 	int priority;
+	private BuildingSystem building;
 	
 	//constructor that just takes the current floor 
-	public SpecialModes(Floor current) {
+	public SpecialModes(Floor current, BuildingSystem building) {
 		this.active = false;
 		this.current = current;
+		this.building = building;
 	}
 	//activate special modes
 	public void activate() {
@@ -34,6 +36,10 @@ public class SpecialModes implements Comparable<SpecialModes>{
 	
 	public int getPriority() {
 		return this.priority;
+	}
+	
+	public BuildingSystem getBuilding() {
+		return this.building;
 	}
 	
 	

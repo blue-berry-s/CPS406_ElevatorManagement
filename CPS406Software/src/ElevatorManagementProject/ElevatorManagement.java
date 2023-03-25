@@ -14,6 +14,7 @@ public class ElevatorManagement {
 	private ArrayList<Elevator> upElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> downElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> disableElevators = new ArrayList<Elevator>();
+	private ArrayList<Elevator> medicalElevators = new ArrayList<Elevator>();
 	//have to switch to specialMode, Boolean
 	private Dictionary<String, Boolean> status = new Hashtable<String,Boolean>();
 	
@@ -103,7 +104,7 @@ public class ElevatorManagement {
 			Elevator Ele = null;
 			int lowest = 0;
 			if (list.isEmpty()) {
-				System.out.print("No Elevators Available");
+				System.out.print("Manager getNearest: No Elevators Available\t");
 				return Ele;
 			}
 			for (Elevator el: list) {
@@ -158,6 +159,30 @@ public class ElevatorManagement {
 			
 		}
 		
+		public Elevator pickElevator(Floor floor) {
+			Elevator Ele1 = null;
+			Elevator Ele2 = null;
+			Elevator Ele3 = null;
+			Ele1 = this.getNearest(floor, this.idleElevators, 0);
+			Ele2 = this.getNearest(floor, this.upElevators, 0);
+			Ele3 = this.getNearest(floor, this.downElevators, 0);
+			if (Ele1 == null) {
+				if (Ele2 == null) {
+					return Ele3;
+				}
+				else {
+					return Ele2;
+				}
+			}
+			else if (Ele2 == null) {
+				return Ele3;
+			}
+			else {
+				return Ele3;
+			}
+			
+		}
+		
 		// Takes calls from callQueue and send it to the correct Elevator
 		// OR indicate to user that no elevator can service the current call
 		// CHANGE REQUEST:
@@ -174,7 +199,7 @@ public class ElevatorManagement {
 				if (this.idleElevators.isEmpty()) {
 					//check if any elevator is in service
 					//probably change this to throw error instead
-					if (idleElevators.isEmpty() && upElevators.isEmpty() && downElevators.isEmpty()) {
+					if (upElevators.isEmpty() && downElevators.isEmpty()) {
 						System.out.println("ERROR: NO ELEVATORS IN SERVICE");
 					}
 					else if (request.getDirection() == 1) {
@@ -202,21 +227,18 @@ public class ElevatorManagement {
 					this.getNearest(request.current, this.idleElevators, 0).addMotion(request);
 				}
 			}
+			//If the call is an inside call (or the elevator is already set within the Call method)
 			else {
-				request.getElevator().addMotion(request);
+				//checks to see the elevator is able to service the call
+				if (request.getElevator().isEnable()) {
+					request.getElevator().addMotion(request);
+				}
+				else {
+					System.out.println("Not in Service");
+				}
+				
 			}
 		}
-		//moved to specialmodehandler
-		/*
-		public void activateFireMode(Floor floor) {
-			for (Elevator el: elevators){
-				el.clearMotion();
-				Call recall = new Call(floor, floor, el);
-				el.addMotion(recall);
-				this.deactivateElevator(el);
-			}
-		}
-		*/
 
 		public Dictionary checkStatus() {
 			return this.status;
@@ -239,7 +261,20 @@ public class ElevatorManagement {
 		//add elevator back to idle elevators to be used again 
 		public void activateElevator(Elevator elevator) {
 			elevator.setEnable(true);
+			if (disableElevators.contains(elevator)) {
+				disableElevators.remove(elevator);
+			}
+			else if (medicalElevators.contains(elevator)) {
+				medicalElevators.remove(elevator);
+			}
 			idleElevators.add(elevator);
+		}
+		
+		//add elevator to MEDICAL ELEVATOR array 
+		// use activateElevator to return it to idleElevators to return it to normal function
+		public void addMedicalElevator(Elevator elevator) {
+			elevator.setEnable(true);
+			this.medicalElevators.add(elevator);
 		}
 		
 		

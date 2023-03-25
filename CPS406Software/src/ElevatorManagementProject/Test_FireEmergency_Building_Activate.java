@@ -3,12 +3,14 @@ package ElevatorManagementProject;
 import java.util.Scanner;
 
 /*
- * TEST SPECIAL MODE: FIRE ALARM EMERGENCY MEDICAL MODE
- * RESULT:
- * all elevators gets disabled, all elevators recalled to lobby
- * no elevator is able to take the next call made (at time == 16)
+ * TEST FIRE EMERGENCY MEDICAL MODE ACTIVATION USING BUILDING SYSTEM
+ * RESULTS:
+ * Building.actiate Fire alarm activate the fire emergency and recalls all elevators
+ * 
  * */
-public class Test_Special_03_24 {
+
+
+public class Test_FireEmergency_Building_Activate {
 private static int time = 0;
 	
 	public static void elevatorPrint(Elevator e1) {
@@ -41,10 +43,6 @@ private static int time = 0;
 		Call call2 = new Call(floor1, floor4, e2);
 		SpecialModeHandler handler = new SpecialModeHandler(manager);
 		BuildingSystem MedicalCampus = new BuildingSystem(manager, handler, floor1);
-		FireEmergency fireCall1 = new FireEmergency(floor1,floor1,MedicalCampus);
-		
- 		
- 		
  		
 		manager.addElevator(e1);
 		manager.addElevator(e2);
@@ -62,10 +60,10 @@ private static int time = 0;
 			elevatorPrint(e2);
 			
 			if (time == 9) {
-				handler.addEmergencyModes(fireCall1);
+				MedicalCampus.activateFireAlarm();
 				handler.handleEmergencyModes();
 			}
-			else if (time == 16) {
+			else if (time == 18) {
 				manager.addCall(call2);
 			}
 			
@@ -76,8 +74,6 @@ private static int time = 0;
 			manager.moveElevators();
 			in = input.next();
 			
-			
 		}
 	}
-
 }
