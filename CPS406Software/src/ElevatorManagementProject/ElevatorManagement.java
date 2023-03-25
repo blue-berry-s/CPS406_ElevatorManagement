@@ -286,8 +286,13 @@ public class ElevatorManagement {
 		// 3) Elevator managment also needs to service special mode classes?
 		public void moveElevators() throws InterruptedException {
 			for (Elevator el: elevators) {
-				if (!(el.motionEmpty()) || el.getMotion() != 0 ){
-					el.move();
+				if (!(el.motionEmpty()) || el.getMotion() != 0) {
+					if (el.checkWeight(el.getWeight())) {
+						el.move();
+					}
+					else {
+						throw new InterruptedException("Elevator too heavy!");
+					}
 				}
 			setArrays();
 			}

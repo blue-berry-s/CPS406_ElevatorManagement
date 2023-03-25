@@ -17,6 +17,7 @@ public class Elevator {
 	private Call currentCall = null;
 	private int id;
 	private Floor idleFloor;
+	// private int maxWeight; // Holds maximum weight 
 	
 	//Elevator Constructor 
 	public Elevator () {
@@ -205,15 +206,9 @@ public class Elevator {
 		this.currentCall = null;
 	}
 
-	
-	
 	//CheckWeight: Checks if the weight of the elevator is over the maximum
-	public boolean checkWeight(int w) {
-		boolean isHeavy = false; //Holds whether the elevator is too heavy
-		if (w > 5000) {
-			isHeavy = true; 
-		}	
-		return isHeavy;
+	public boolean checkWeight(int weight) {
+		return weight > 18;
 	}
 	
 }

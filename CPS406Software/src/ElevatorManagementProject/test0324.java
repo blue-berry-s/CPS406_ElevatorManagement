@@ -54,13 +54,13 @@ private static int time = 0;
  		Call call4 = new Call(floor4, 1);
 		*/
  		
- 		Call call13 = new Call(floor1, floor5, e2);
-		
- 		
- 		
+ 		Call call13 = new Call(floor1, floor5, e2); 		
  		
 		manager.addElevator(e1);
 		manager.addElevator(e2);
+
+		e1.setWeight(19); // Elevator 1 will not move
+		e1.setWeight(12); // Elevator 1 will move
 		
 		elevatorPrint(e1);
 		elevatorPrint(e2);
