@@ -114,30 +114,36 @@ public class SpecialModeHandler {
 	public void deactivatePowerEmergency() {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
-		for(SpecialModes s : manager.getManagementModes()){
-			if (s instanceof EmergencyPower) {
-				modeCheck = true; 
-				mode = s;
-				break;
-			}
-		}
-		
-		if (modeCheck == true) {
-			if (mode.getBuilding().getPower() == true) {
-				for (Elevator e1: manager.getElevators()) {
-					manager.activateElevator(e1);
+		if (manager.getManagementModes() != null) {
+			for(SpecialModes s : manager.getManagementModes()){
+				if (s instanceof EmergencyPower) {
+					modeCheck = true; 
+					mode = s;
+					break;
 				}
-				//remove all instances of emergencypower mode from manager list 
-				manager.getManagementModes().removeIf(i -> i instanceof EmergencyPower);
-				System.out.print("---EMERGENCY POWER MODE HAS BEEN DEACTIVATED---");
+			}
+			if (modeCheck == true) {
+				if (mode.getBuilding().getPower() == true) {
+					for (Elevator e1: manager.getElevators()) {
+						manager.activateElevator(e1);
+					}
+					//remove all instances of emergencypower mode from manager list 
+					manager.getManagementModes().removeIf(i -> i instanceof EmergencyPower);
+					System.out.print("---EMERGENCY POWER MODE HAS BEEN DEACTIVATED---");
+				}
+				else {
+					System.out.print("---BUILDING ELECTRICAL SYSTEM NOT ACTIVE, UNABLE TO DEACTIVATE MODE---");
+				}
 			}
 			else {
-				System.out.print("---BUILDING ELECTRICAL SYSTEM NOT ACTIVE, UNABLE TO DEACTIVATE MODE---");
+				System.out.print("---EMERGENCY POWER MODE IS NOT CURRENTLY ACTIVE---");
 			}
 		}
 		else {
-			System.out.print("---EMERGENCY POWER MODE IS NOT CURRENTLY ACTIVE---");
+			System.out.print("---NO CURRENTLY ACTIVE MODES---");
 		}
+	
+		
 		
 	}
 	
@@ -146,46 +152,57 @@ public class SpecialModeHandler {
 	public void deactivateFireEmergency() {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
-		for(SpecialModes s : manager.getManagementModes()){
-			if (s instanceof FireEmergency) {
-				modeCheck = true; 
-				mode = s;
-				break;
+		if (manager.getManagementModes() != null) {
+			for(SpecialModes s : manager.getManagementModes()){
+				if (s instanceof FireEmergency) {
+					modeCheck = true; 
+					mode = s;
+					break;
+				}
 			}
-		}
-		if (modeCheck == true) {
-			for (Elevator e1: manager.getElevators()) {
-				manager.activateElevator(e1);
+			if (modeCheck == true) {
+				for (Elevator e1: manager.getElevators()) {
+					manager.activateElevator(e1);
+				}
+				mode.getBuilding().deactivateFireAlarm();
+				manager.getManagementModes().removeIf(i -> i instanceof FireEmergency);
+				System.out.print("***EMERGENCY FIRE MODE HAS BEEN DEACTIVATED***");
 			}
-			mode.getBuilding().deactivateFireAlarm();
-			manager.getManagementModes().removeIf(i -> i instanceof FireEmergency);
-			System.out.print("***EMERGENCY FIRE MODE HAS BEEN DEACTIVATED***");
+			else {
+				System.out.print("***EMERGENCY FIRE MODE IS NOT CURRENTLY ACTIVE***");
+			}
 		}
 		else {
-			System.out.print("***EMERGENCY FIRE MODE IS NOT CURRENTLY ACTIVE***");
+			System.out.print("---NO CURRENTLY ACTIVE MODES---");
 		}
+		
+			
 		
 	}
 	
 	public void deactivateMedicalEmergency(Elevator e1) {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
-		for(SpecialModes s : e1.getCurrentlyActiveModes()){
-			if (s instanceof MedicalEmergency) {
-				modeCheck = true; 
-				mode = s;
-				break;
+		if (e1.getCurrentlyActiveModes() != null) {
+			for(SpecialModes s : e1.getCurrentlyActiveModes()){
+				if (s instanceof MedicalEmergency) {
+					modeCheck = true; 
+					mode = s;
+					break;
+				}
+			}
+			if (modeCheck == true) {
+				manager.activateElevator(e1);
+				e1.getCurrentlyActiveModes().removeIf(i -> i instanceof MedicalEmergency);
+				System.out.print("***MEDICAL EMERGENCY MODE HAS BEEN DEACTIVATED***");
+			}
+			else {
+				System.out.print("***MEDICAL EMERGENCY MODE IS NOT CURRENTLY ACTIVE***");
 			}
 		}
-		if (modeCheck == true) {
-			manager.activateElevator(e1);
-			e1.getCurrentlyActiveModes().removeIf(i -> i instanceof MedicalEmergency);
-			System.out.print("***MEDICAL EMERGENCY MODE HAS BEEN DEACTIVATED***");
-		}
 		else {
-			System.out.print("***MEDICAL EMERGENCY MODE IS NOT CURRENTLY ACTIVE***");
+			System.out.print("---NO CURRENTLY ACTIVE MODES---");
 		}
-		
 	}
 	
 	
@@ -265,7 +282,7 @@ public class SpecialModeHandler {
 			
 		}
 		else {
-			System.out.println("No active modes");
+			System.out.println("NO CURRENT ACTIVE MODES=");
 		}
 	}
 	
