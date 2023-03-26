@@ -19,7 +19,8 @@ public class Elevator{
 	private HashSet<SpecialModes> activeModes;
 	private Call currentCall = null;
 	private int id;
-	private Floor idleFloor;
+	//private Floor idleFloor;
+	private Door door = null;
 	
 	//Elevator Constructor 
 	public Elevator () {
@@ -31,6 +32,11 @@ public class Elevator{
 		idGenerate ++;
 		this.location = new Floor();
 		this.activeModes = null;
+	}
+	//Elevator Constructor with Door
+	public Elevator (Door door) {
+		this();
+		this.door = door;
 	}
 	
 	//getID: Getter for ID
@@ -180,16 +186,16 @@ public class Elevator{
 	public void move() throws InterruptedException {
 		if (this.currentCall == null) {
 			this.currentCall = this.maxFloor();
-			//System.out.println(this.currentCall);
 			this.move();
 		}
 		else {
 			//STOP at this floor if the current floor is in motionSet
 			if (this.setContains(this.location) && !(this.currentCall.getRequest().equals(this.location))) {
-				this.motionSet.removeIf(n -> (n.equals(new Call(this.location, this.motion))));
-				System.out.println("Doors Open");
-				TimeUnit.SECONDS.sleep(1);
-				System.out.println("Doors Closed");
+				if (this.door.getMode() != 2) {
+					this.motionSet.removeIf(n -> (n.equals(new Call(this.location, this.motion))));
+					this.door.open(this);
+					TimeUnit.SECONDS.sleep(1);
+					}
 				}
 			//If Elevator not at the callRequest - start moving
 			else if (this.currentCall.getRequest().currentFloor() > this.location.currentFloor()) {
@@ -203,12 +209,13 @@ public class Elevator{
 			
 			//if the Elevator has reached the currentCall - stop and open and close doors
 			else if (this.currentCall.getRequest().equals(this.location)) {
-				System.out.println("Doors Open");
-				this.motionSet.removeIf(n -> (n.equals(this.currentCall)));
-				this.motion = 0;
-				this.currentCall = null;
-				TimeUnit.SECONDS.sleep(1);
-				System.out.println("Doors Closed");
+				if (this.door.getMode() != 2) {
+					this.motionSet.removeIf(n -> (n.equals(this.currentCall)));
+					this.motion = 0;
+					this.currentCall = null;
+					this.door.open(this);
+					TimeUnit.SECONDS.sleep(1);
+				}
 			}
 		}
 		
@@ -225,6 +232,10 @@ public class Elevator{
 	public boolean checkWeight(int weight) {
         return weight <= 18;
     }
+	
+	public boolean getDoorStatus() {
+		return this.door.getDoorStatus();
+	}
 	
 	
 	

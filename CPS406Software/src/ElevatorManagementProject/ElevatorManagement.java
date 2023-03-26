@@ -102,6 +102,16 @@ public class ElevatorManagement {
 						}					
 					}
 				}
+				else {
+					if (this.downElevators.contains(el)) {
+						this.downElevators.remove(el);
+						this.idleElevators.add(el);
+					}
+					else if (this.upElevators.contains(el)) {
+						this.upElevators.remove(el);
+						this.idleElevators.add(el);
+					}
+				}
 				
 			}
 		}
@@ -297,15 +307,24 @@ public class ElevatorManagement {
 		public void moveElevators() throws InterruptedException {
 			for (Elevator el: elevators) {
 				if (!(el.motionEmpty()) || el.getMotion() != 0) {
-					if (el.checkWeight(el.getWeight())) {
-						el.move();
+					Boolean weight = el.checkWeight(el.getWeight());
+					Boolean doors = el.getDoorStatus();
+					if (!weight && doors) {
+						System.out.println("E"+el.getId() +":Cannot move due to overweight and Doors Open");
+					}
+					else if (!weight) {
+						System.out.println("E"+el.getId() +":Cannot move due to Overweight");
+					}
+					else if (doors) {
+						System.out.println("E"+el.getId() +":Cannot move due due to Doors Open");
 					}
 					else {
-						throw new InterruptedException("Elevator too heavy!");
+						el.move();
 					}
 				}
 			setArrays();
 			}
+			setArrays();
 		}
 		
 
