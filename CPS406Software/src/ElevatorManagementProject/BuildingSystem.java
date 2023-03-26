@@ -51,4 +51,9 @@ public class BuildingSystem {
 		this.report.addEmergencyModes(call);
 	}
 
+	public void deactivateFireAlarm() {
+		this.fireStatus = true; 
+		
+	}
+
 }

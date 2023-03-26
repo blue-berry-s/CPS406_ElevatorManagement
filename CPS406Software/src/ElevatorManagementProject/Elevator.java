@@ -1,9 +1,11 @@
 package ElevatorManagementProject;
 
 import java.util.LinkedHashSet;
+import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.HashSet;
 
-public class Elevator {
+public class Elevator{
 	
 	private static int idGenerate = 1;
 	
@@ -14,10 +16,10 @@ public class Elevator {
 	private boolean enable; //Checks if elevator is enabled 
 	private Floor location;
 	private LinkedHashSet<Call> motionSet = new LinkedHashSet<Call>(); 
+	private HashSet<SpecialModes> activeModes;
 	private Call currentCall = null;
 	private int id;
 	private Floor idleFloor;
-	// private int maxWeight; // Holds maximum weight 
 	
 	//Elevator Constructor 
 	public Elevator () {
@@ -28,6 +30,7 @@ public class Elevator {
 		id = idGenerate;
 		idGenerate ++;
 		this.location = new Floor();
+		this.activeModes = null;
 	}
 	
 	//getID: Getter for ID
@@ -78,6 +81,16 @@ public class Elevator {
 	//Location method: Returns the location of the elevator 
 	public Floor getlocation() {
 		return this.location;
+	}
+	
+	//Sets the currently active modes set 
+	public void setCurrentlyActiveModes(HashSet<SpecialModes> activeModes){
+		this.activeModes = activeModes;
+	}
+	
+	//Returns the currently active modes set 
+	public HashSet<SpecialModes> getCurrentlyActiveModes(){
+		return this.activeModes;
 	}
 	
 	//Adds motions
@@ -206,10 +219,18 @@ public class Elevator {
 		this.currentCall = null;
 	}
 
+	
+	
 	//CheckWeight: Checks if the weight of the elevator is over the maximum
-	public boolean checkWeight(int weight) {
-		return weight > 18;
+	public boolean checkWeight(int w) {
+		boolean isHeavy = false; //Holds whether the elevator is too heavy
+		if (w > 5000) {
+			isHeavy = true; 
+		}	
+		return isHeavy;
 	}
+	
+	
 	
 }
 

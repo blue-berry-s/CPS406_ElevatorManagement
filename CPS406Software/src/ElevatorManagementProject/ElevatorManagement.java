@@ -2,6 +2,7 @@ package ElevatorManagementProject;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,6 +18,7 @@ public class ElevatorManagement {
 	private ArrayList<Elevator> medicalElevators = new ArrayList<Elevator>();
 	//have to switch to specialMode, Boolean
 	private Dictionary<String, Boolean> status = new Hashtable<String,Boolean>();
+	private HashSet<SpecialModes> managementModes;
 	
 		public ElevatorManagement() {
 		}
@@ -53,6 +55,14 @@ public class ElevatorManagement {
 			return (this.callQueue.size() == 0);
 		}
 		
+		public HashSet<SpecialModes> getManagementModes() {
+			return managementModes;
+		}
+
+		public void setManagementModes(HashSet<SpecialModes> managementModes) {
+			this.managementModes = managementModes;
+		}
+
 		//Changes Elevator Management Arrays based on the Calls each Elevator is taking
 		//NOTE elevator motion may differ than their current service Call direction
 		//EG: if an elevator on floor 1 services a down call from floor 6
