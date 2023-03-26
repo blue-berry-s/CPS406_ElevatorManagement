@@ -11,7 +11,6 @@ public class SpecialModeHandler {
 	//private EmergencyPower outage; 
 	//private MedicalEmergency medical; 
 	private BuildingSystem building; 
-	private boolean override = false; 
 	//private Door door; 
 	
 	public SpecialModeHandler(ElevatorManagement manager) {
@@ -133,7 +132,7 @@ public class SpecialModeHandler {
 				System.out.print("---EMERGENCY POWER MODE HAS BEEN DEACTIVATED---");
 			}
 			else {
-				System.out.print("---BUILDING ELECTRICAL SYSTEM STILL ACTIVE---");
+				System.out.print("---BUILDING ELECTRICAL SYSTEM NOT ACTIVE, UNABLE TO DEACTIVATE MODE---");
 			}
 		}
 		else {

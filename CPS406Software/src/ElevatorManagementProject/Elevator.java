@@ -222,13 +222,9 @@ public class Elevator{
 	
 	
 	//CheckWeight: Checks if the weight of the elevator is over the maximum
-	public boolean checkWeight(int w) {
-		boolean isHeavy = false; //Holds whether the elevator is too heavy
-		if (w > 5000) {
-			isHeavy = true; 
-		}	
-		return isHeavy;
-	}
+	public boolean checkWeight(int weight) {
+        return weight <= 18;
+    }
 	
 	
 	
