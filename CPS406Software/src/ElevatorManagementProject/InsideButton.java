@@ -14,21 +14,20 @@ public class InsideButton {
     private boolean doorOpened;
     private boolean doorClosed;
     private boolean alarm;
+	private Door door;
 
-    public InsideButton(Elevator elevator){//, Door door, SpecialMode mode) {
+    public InsideButton(Elevator elevator, Door door){//, Door door, SpecialMode mode) {
         this.elevator = elevator;
-        //this.door = door;
-        //this.mode = mode;
+        this.door = door;
         this.doorOpened = false;
         this.doorClosed = true;
         this.alarm = false;
     }
 
-    public void openDoors() {
+    public void openDoors() throws InterruptedException {
         this.doorOpened = true;
         this.doorClosed = false;
-
-        //this.door.open();
+        this.door.open(this.elevator);
     }
 
     public void closeDoors() {
@@ -38,12 +37,13 @@ public class InsideButton {
         //this.door.close();
     }
 
-    public void callFloor(int floor) {
-        if (floor == this.elevator.location()) {
+    public void callFloor(int floor) throws InterruptedException {
+        if (floor == this.elevator.getlocation().currentFloor()) {
             openDoors();
         } else {
-            if (this.elevator.getWeight() && this.elevator.getPower()) {
-                this.elevator.setLocation(floor);
+            if (this.elevator.checkWeight(this.elevator.getWeight()) && this.elevator.isPower()) {
+            	Call call = new Call(this.elevator.getlocation(), floor);
+                this.elevator.addMotion(call);
                 closeDoors();
             }
         }
@@ -53,8 +53,7 @@ public class InsideButton {
         this.alarm = true;
         this.doorOpened = false;
         this.doorClosed = true;
-        this.door.close();
-        this.mode.enable();
+        this.door.close(this.elevator);
     }
 
 }
