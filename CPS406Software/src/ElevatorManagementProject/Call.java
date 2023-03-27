@@ -25,10 +25,10 @@ public class Call //implements Comparable<Call>
 		this.request = request;
 		this.elevator = elevator;
 		if (current.currentFloor() - request.currentFloor() > 0) {
-			this.direction = 1;
+			this.direction = -1;
 		}
 		else if (current.currentFloor() - request.currentFloor() < 0) {
-			this.direction = -1;
+			this.direction = 1;
 		}
 		else {
 			this.direction = 0;

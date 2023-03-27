@@ -49,12 +49,12 @@ public class InsideButton {
         if (floor == this.elevator.getlocation()) {
             this.door1.open(elevator);
             return false;
-        } else {
+        } 
+        else {
 //        	If the elevator has power, send the destination to elevator manager and close the door
             if (this.elevator.isPower() && this.elevator.isEnable()) {
             	Call call = new Call(this.elevator.getlocation(), floor, this.elevator);
                 manager.addCall(call);
-                this.door1.close(elevator);
             }
             else {
             	return false;
@@ -72,8 +72,6 @@ public class InsideButton {
     public boolean openDoorButton() throws InterruptedException {
     	if (this.elevator.getMotion() == 0) {
     		this.elevator.getDoor().open(elevator);
-        	TimeUnit.SECONDS.sleep(1);
-        	this.elevator.getDoor().close(elevator);	
         	return true;
     	} else {
     		return false;

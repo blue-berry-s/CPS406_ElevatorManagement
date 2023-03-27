@@ -11,7 +11,7 @@ public class MedicalEmergency extends SpecialModes{
 	public MedicalEmergency(Floor current, Floor emergencyFloor, BuildingSystem building){
 		super(current, building);
 		this.emergencyFloor = emergencyFloor; 
-		this.active = true; 
+		super.active = true; 
 		super.priority = this.MEDICAL;
 	}
 	
