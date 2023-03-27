@@ -44,6 +44,7 @@ public class SpecialModeHandler {
 				if (mode.getBuilding().getPower() == true) {
 					for (Elevator e1: manager.getElevators()) {
 						manager.activateElevator(e1);
+						e1.getDoor().setMode(1);
 					}
 					//remove all instances of emergencypower mode from manager list 
 					manager.getManagementModes().removeIf(i -> i instanceof EmergencyPower);
@@ -81,6 +82,7 @@ public class SpecialModeHandler {
 			if (modeCheck == true) {
 				for (Elevator e1: manager.getElevators()) {
 					manager.activateElevator(e1);
+					e1.getDoor().setMode(1);
 				}
 				mode.getBuilding().deactivateFireAlarm();
 				manager.getManagementModes().removeIf(i -> i instanceof FireEmergency);
@@ -151,6 +153,7 @@ public class SpecialModeHandler {
 						e1.addMotion(recall);
 						manager.deactivateElevator(e1);
 						manager.getManagementModes().add(check);
+						e1.getDoor().setMode(3);
 					}
 				}
 			}
@@ -171,11 +174,12 @@ public class SpecialModeHandler {
 				Call recall = new Call(convert.getRecall(), convert.getRecall(), e1);
 				e1.addMotion(recall);
 				manager.deactivateElevator(e1);
+				e1.getDoor().setMode(3);
 					
-				//Door
-				System.out.println("Doors Open");
-				System.out.println("***FIRE EMERGENCY MODE ACTIVATED, PLEASE EVACUATE***");
-		
+				System.out.println("***FIRE EMERGENCY MODE ACTIVATED, ELEVATORS MOVING TO EVACUATION FLOOR, PLEASE EVACUATE UPON ARRIVAL***");
+				
+
+	
 			}
 			
 		}

@@ -21,6 +21,7 @@ public class ElevatorManagement {
 	private HashSet<SpecialModes> managementModes;
 	
 		public ElevatorManagement() {
+			managementModes = new HashSet<SpecialModes>();
 		}
 		
 		//add elevator
@@ -62,7 +63,6 @@ public class ElevatorManagement {
 		public void setManagementModes(HashSet<SpecialModes> managementModes) {
 			this.managementModes = managementModes;
 		}
-
 		//Changes Elevator Management Arrays based on the Calls each Elevator is taking
 		//NOTE elevator motion may differ than their current service Call direction
 		//EG: if an elevator on floor 1 services a down call from floor 6
@@ -316,7 +316,13 @@ public class ElevatorManagement {
 						System.out.println("E"+el.getId() +":Cannot move due to Overweight");
 					}
 					else if (doors) {
-						System.out.println("E"+el.getId() +":Cannot move due due to Doors Open");
+						if (el.getDoor().getMode() != 2 && el.getDoor().getMode() != 3) {
+							el.getDoor().close(el);
+							el.move();
+						}
+						else {
+							System.out.println("E"+el.getId() +":Cannot move due due to Doors Open");
+						}
 					}
 					else {
 						el.move();

@@ -56,7 +56,7 @@ public class Door {
     }
 
     public boolean getDoorStatus() {  // true -> open and false -> close
-        return isOpen;
+        return this.isOpen;
     }
     
     public int getMode()

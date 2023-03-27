@@ -31,14 +31,17 @@ public class Elevator{
 		id = idGenerate;
 		idGenerate ++;
 		this.location = new Floor();
-		this.activeModes = null;
+		this.activeModes = new HashSet<SpecialModes>();
 	}
 	//Elevator Constructor with Door
 	public Elevator (Door door) {
 		this();
 		this.door = door;
 	}
-	
+	//getDoor: Getter for door 
+	public Door getDoor() {
+		return this.door; 
+	}
 	//getID: Getter for ID
 	public int getId() {
 		return this.id;
