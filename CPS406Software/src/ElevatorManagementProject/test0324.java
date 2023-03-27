@@ -60,7 +60,7 @@ private static int time = 0;
 		manager.addElevator(e2);
 
 		e1.setWeight(19); // Elevator 1 will not move
-		e1.setWeight(12); // Elevator 1 will move
+		e1.setWeight(12); // Elevator 2 will move
 		
 		elevatorPrint(e1);
 		elevatorPrint(e2);
@@ -113,14 +113,11 @@ private static int time = 0;
 				manager.addCall(call1); //request at Floor 1 for elevator
 			}
 			
-			
 			while (!manager.callEmpty()) {
 				manager.takeCall();
 			}
 			manager.moveElevators();
 			in = input.next();
-			
-			
 		}
 	}
 

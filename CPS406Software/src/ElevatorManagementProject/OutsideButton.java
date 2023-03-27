@@ -6,17 +6,22 @@ package ElevatorManagementProject;
 
 public class OutsideButton {
     private ElevatorManagement manager;
-    private int floor;
-    private boolean up;
-    private boolean down;
+    private Floor floor;
 
-    public OutsideButton(int floor) {
+    public OutsideButton(ElevatorManagement manager, Floor floor) {
         this.floor = floor;
-        this.up = false;
-        this.down = false;
+        this.manager = manager;
     }
 
-    public void callElevator(int floor, boolean up, boolean down) {
-        this.manager.add(floor, up, down);
+    /**
+    * This function simulates the door closing button in elevators.
+    * @param	floor		The floor which the passenger is calling the elevator from
+    * @param	direction	The direction (1 for up, -1 for down)
+    * @return				Whether the operation was successful
+    */
+    public boolean callElevator(Floor floor, int direction) {
+       	this.manager.addCall(new Call(floor, direction));
+       	return true;
+        
     }
 }
