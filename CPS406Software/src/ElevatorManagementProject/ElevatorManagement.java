@@ -1,36 +1,39 @@
 package ElevatorManagementProject;
 
+/**
+ * Elevator Management
+ * Manager to handle all incoming movement calls and sends it to the correct elevator based on picking algorithm
+ * Functionality:
+ * - takes movement requests from buttons
+ * - picks the best elevator
+ * - sends movement request to elevators
+ * - checks whether elevators can move, and moves elevators
+ */
+
+
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ElevatorManagement {
 	private Queue<Call> callQueue = new LinkedList<Call>();
-	//private Queue<SpecialMode> mode_queue = new LinkedList<Special_mode>();
 	private ArrayList<Elevator> elevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> idleElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> upElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> downElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> disableElevators = new ArrayList<Elevator>();
 	private ArrayList<Elevator> medicalElevators = new ArrayList<Elevator>();
-	//have to switch to specialMode, Boolean
-	private Dictionary<String, Boolean> status = new Hashtable<String,Boolean>();
-	private HashSet<SpecialModes> managementModes;
+	private HashSet<SpecialModes> managementModes = new HashSet<SpecialModes>();;
 	
-		public ElevatorManagement() {
-			managementModes = new HashSet<SpecialModes>();
-		}
-		
+	
 		//add elevator
 		public void addElevator(Elevator elevator) {
 			this.elevators.add(elevator);
 			this.idleElevators.add(elevator);
 		}
 		
-		//add a list of elevators
+		//adds a list of elevators
 		public void setElevators(ArrayList<Elevator> elevators) {
 			this.elevators = new ArrayList<Elevator>(elevators);
 			this.idleElevators = new ArrayList<Elevator>(elevators);
@@ -63,10 +66,12 @@ public class ElevatorManagement {
 		public void setManagementModes(HashSet<SpecialModes> managementModes) {
 			this.managementModes = managementModes;
 		}
-		//Changes Elevator Management Arrays based on the Calls each Elevator is taking
-		//NOTE elevator motion may differ than their current service Call direction
-		//EG: if an elevator on floor 1 services a down call from floor 6
-		// the elevator must move UPWARDS, but it is in the downElevators
+		
+		
+		 /**
+		    * setArrays
+		    * helper internal function for elevator management to handle its arrays and keep Elevators in proper arrays
+		    */
 		private void setArrays() {
 			for (Elevator el: elevators) {
 				if (el.getCurrentCall() != null) {
@@ -116,15 +121,17 @@ public class ElevatorManagement {
 			}
 		}
 		
-		//Algorithm to select the best elevator
-		//Also accounts for when no elevators are available 
-		//1) the nearest elevator going in the same direction as the request and has the call in its path
-		//2) the nearest idle elevator
+		 /**
+		    *Helper function for Elevator Management to find the nearest Elevator
+		    * @param	floor				The requested floor
+		    * @param	ArrayList list		The list to search through
+		    * @param	int	direction		The direction of desired travel
+		    * @return	Elevator 			Returns the nearest Elevator and null if elevator is empty
+		    */
 		private Elevator getNearest(Floor floor, ArrayList<Elevator> list, int direction) {
 			Elevator Ele = null;
 			int lowest = 0;
 			if (list.isEmpty()) {
-				System.out.print("Manager getNearest: No Elevators Available\t");
 				return Ele;
 			}
 			for (Elevator el: list) {
@@ -161,10 +168,10 @@ public class ElevatorManagement {
 		
 		}
 		
-		//3) the elevator with the least amount of items in its Motion queue
-		// CHANGE REQUEST: it may be possible for all elevators to be disabled
-		// in which case, getLowest() should actually return NULL
-		// it currently will return the first elevator in ArrayList elevators
+		 /**
+		    *Helper function for Elevator Management to find the Elevator with the least amount of requests
+		    * @return	Elevator 			Returns the Elevator who can service the call fastest and null if all elevators are unavailable
+		    */
 		private Elevator getLowest() {
 			Elevator Ele = null;
 			int lowest = 0;
@@ -179,6 +186,11 @@ public class ElevatorManagement {
 			
 		}
 		
+		 /**
+		    *Public elevator to help pick the most optimized elevator
+		    *@param		Floor floor		The floor of interest
+		    * @return	Elevator 		Returns the most optimized Elevator who can service the call fastest and null if all elevators are unavailable
+		    */
 		public Elevator pickElevator(Floor floor) {
 			Elevator Ele1 = null;
 			Elevator Ele2 = null;
@@ -258,10 +270,6 @@ public class ElevatorManagement {
 				}
 				
 			}
-		}
-
-		public Dictionary checkStatus() {
-			return this.status;
 		}
 		
 		public void deactivateElevator(Elevator elevator) {

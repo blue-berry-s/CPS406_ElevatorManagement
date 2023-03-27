@@ -1,6 +1,6 @@
 package ElevatorManagementProject;
 
-public class Call //implements Comparable<Call>
+public class Call 
 {
 	Floor current;
 	Floor request;
@@ -8,22 +8,32 @@ public class Call //implements Comparable<Call>
 	//up = 1, down = -1, 0 = no motion
 	int direction;
 	
-	public boolean equals(Object otherObject) { //overwriting equals method
+	@Override
+	public boolean equals(Object otherObject) { 
 		Call other = (Call) otherObject;
 		return this.request.equals(other.getRequest());
 	}
 	
+	/*
+	 * Constructor for call objects
+	 */
 	public Call() {
 		this.request = null;
 		this.current = null;
 		this.elevator = null;
 		this.direction = 0;
 	}
-	//Call format inside button should create
+	/**
+	 * Call's made by inside buttons
+	 * @param Floor current - gives call the current floor
+	 * @param Floor request - gives call the requested floor
+	 * @param Elevator elevator - gives call which elevator is making the call
+	*/
 	public Call(Floor current, Floor request, Elevator elevator) {
 		this.current = current;
 		this.request = request;
 		this.elevator = elevator;
+		// Call will figure out the direction of the call based on the given parameters
 		if (current.currentFloor() - request.currentFloor() > 0) {
 			this.direction = -1;
 		}
@@ -35,7 +45,11 @@ public class Call //implements Comparable<Call>
 		}
 		
 	}
-	//Call format outside button should create
+	/**
+	 * Call's made by outside buttons
+	 * @param Floor current - gives call the current floor
+	 * @param Elevator elevator - gives call the direction of the call
+	*/
 	public Call(Floor current, int direction) {
 		this.current = current;
 		this.request = current;
@@ -43,15 +57,22 @@ public class Call //implements Comparable<Call>
 		this.direction = direction;
 	}
 	
+	// Gets the Request FLoor
 	public Floor getRequest() {
 		return this.request;
 	}
+	
+	// Gets the Current Floor
 	public Floor getCurrent() {
 		return this.current;
 	}
+	
+	// Gets the Elevator
 	public Elevator getElevator() {
 		return this.elevator;
 	}
+	
+	//Gets the Direction
 	public int getDirection() {
 		return this.direction;
 	}

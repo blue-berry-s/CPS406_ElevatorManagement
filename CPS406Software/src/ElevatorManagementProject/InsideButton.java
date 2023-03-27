@@ -9,34 +9,16 @@ import java.util.concurrent.TimeUnit;
 public class InsideButton {
 	private ElevatorManagement manager;
     private Elevator elevator;
-    private Door door1;
     private SpecialModeHandler handler;
-//    private boolean doorOpened;
-//    private boolean doorClosed;
-//    private boolean alarm;
 	private Door door;
 
     public InsideButton(ElevatorManagement manager, Elevator elevator, SpecialModeHandler handler){//, Door door, SpecialMode mode) {
         this.manager = manager;
     	this.elevator = elevator;
-        this.door1 = this.elevator.getDoor();
+        this.door = this.elevator.getDoor();
         this.handler = handler;
-//        this.doorOpened = false;
-//        this.doorClosed = true;
-//        this.alarm = false;
-    }
 
-//    public void openDoors() throws InterruptedException {
-//        this.doorOpened = true;
-//        this.doorClosed = false;
-//        this.door1.open(this.elevator);
-//    }
-//
-//    public void closeDoors() {
-//        this.doorOpened = false;
-//        this.doorClosed = true;
-//        this.door1.close(this.elevator);
-//    }
+    }
     
     /**
     * This function simulates the door opening button in elevators.
@@ -47,7 +29,7 @@ public class InsideButton {
     public boolean callFloor(Floor floor) throws InterruptedException {
 //    	If the elevator is already at the requested floor, keep the door open
         if (floor == this.elevator.getlocation()) {
-            this.door1.open(elevator);
+            this.door.open(elevator);
             return false;
         } 
         else {

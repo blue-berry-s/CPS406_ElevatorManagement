@@ -1,7 +1,14 @@
 package ElevatorManagementProject;
-//import java.util.Timer;
-//import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
+/**
+ * Door
+ * represents the doors of an elevator
+ * functionality:
+ * - 3 different modes: Automatically open and close doors, Manually open and Manually close doors, Automatically open and Manually close doors
+ * - open doors
+ * - close doors
+ */
 
 public class Door {
 	// Door modes
@@ -9,19 +16,27 @@ public class Door {
     public static final int MODE_MANUAL_CLOSE_OPEN = 2;
     public static final int MODE_AUTO_OPEN_MANUAL_CLOSE = 3;
 
-    private int mode;
+    private int mode = MODE_AUTO_CLOSE_OPEN;
     private boolean isOpen;
-    //private Timer timer;
 
+    /*
+     * All doors default mode is Automatically open and Automatically close
+     */
     public Door() {
-        this.mode = MODE_AUTO_CLOSE_OPEN;
         this.isOpen = false;
     }
+    
     public Door(int mode) {
-        this.mode = mode;
         this.isOpen = false;
+        this.setMode(mode);
     }
 
+    /**
+     * @JOSH - the interruptedException should be caught somewhere
+     * This function simulates doors opening
+     * @param	Elevator elevator	information on which Elevator is currently opening door
+     * @throws InterruptedException 
+     */
     public void open(Elevator ele) throws InterruptedException {
         if (mode == MODE_AUTO_CLOSE_OPEN) {
             autoOpenAndClose(ele);
@@ -31,40 +46,47 @@ public class Door {
             
         }
     }
-
+    
+    /**
+     * This function simulates doors closing
+     * @param	Elevator elevator information on which Elevator is currently opening door
+     * @throws InterruptedException 
+     */
     public void close(Elevator ele) {
     	isOpen = false;
-    	System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );
-    	
+    	System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );	
     }
 
     private void autoOpenAndClose(Elevator ele) throws InterruptedException {
     	isOpen = true;
     	System.out.println("E" + ele.getId() + ": Doors Opened [isOpen:" + this.isOpen + "]" );
         TimeUnit.SECONDS.sleep(3);
-        /*timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                isOpen = false;
-                timer.cancel();
-                timer = null;
-            }
-        }, 3000);*/
         isOpen = false;
         System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );
     }
 
-    public boolean getDoorStatus() {  // true -> open and false -> close
+    /**
+     * @return boolean Function to check whether the Door is currently Open
+     */
+    public boolean getDoorStatus() {
         return this.isOpen;
     }
     
+    /**
+     * @return Int Function to check the mode of the Door
+     */
     public int getMode()
     {
         return mode;
     }
     
-    public void setMode(int i) {
+    /**
+     * @JOSH - THIS SHOUld throw an error and should be caught
+     * function to set the mode of the elevator
+     * @param Integer representing the mode
+     * @return boolean - Whether the mode was successfully set
+     */
+    public boolean setMode(int i) {
     	if (i == MODE_AUTO_CLOSE_OPEN) {
     		this.mode = MODE_AUTO_CLOSE_OPEN;
     	}
@@ -76,7 +98,9 @@ public class Door {
     	}
     	else {
     		System.out.println("SYSTEM ERROR: MODE "+ i +" IS NOT PROPER MODE");
+    		return false;
     	}
+    	return true;
     }
 
 }

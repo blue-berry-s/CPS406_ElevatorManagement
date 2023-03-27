@@ -1,7 +1,14 @@
 package ElevatorManagementProject;
 
+/**
+ * Elevator
+ * holds information representing an Elevator
+ * functionality:
+ * - When called by Elevator Management, the elevator will move
+ * - Open and close Doors at proper floors
+ */
+
 import java.util.LinkedHashSet;
-import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.HashSet;
 
@@ -11,7 +18,8 @@ public class Elevator{
 	
 	//Elevator Variables 
 	private int weight; //Weight of the elevator in pounds 
-	private int motion; //Checks if the elevator is in motion 
+	// 1 for up, 0 for no motion, -1 for down
+	private int motion;
 	private boolean power; //Checks if power is available 
 	private boolean enable; //Checks if elevator is enabled 
 	private Floor location;
@@ -19,7 +27,6 @@ public class Elevator{
 	private HashSet<SpecialModes> activeModes;
 	private Call currentCall = null;
 	private int id;
-	//private Floor idleFloor;
 	private Door door = null;
 	
 	//Elevator Constructor 
@@ -102,9 +109,15 @@ public class Elevator{
 		return this.activeModes;
 	}
 	
-	//Adds motions
+	/**
+	 * adds a movement request to Elevator
+	 * @param Call call - holds information about the movement request
+	 * Ensures that the elevator is taking the longest path possible
+	*/
 	public void addMotion(Call call) {
-		//re-evaluate to make sure the current service call is the longest path possible 
+		/*if the elevator is already taking a call, 
+		 * compares to see if the new call is longer than the current path
+		 */
 		if (this.motion == 1) {
 			this.motionSet.add(currentCall);
 			this.motionSet.add(call);
@@ -155,7 +168,6 @@ public class Elevator{
 		}
 		return min;
 	}
-	
 	//check if the current floor is in motionSet
 	private boolean setContains(Floor check) {	
 		Call temp = new Call(check,this.motion);
@@ -181,11 +193,13 @@ public class Elevator{
 		return this.currentCall;
 	}
 	
-	//Move elevator in given direction
-	// need to:
-	// either implemented here or somewhere else
-	// elevator can ONLY move if the weight is not surpass the max weight
-	// might be good to contact remey and ask if there could be a numpad input user can use in the UI
+	/**
+	 * Elevator Moves
+	 * @JOSH - InterruptedException should be Caught 
+	 * Elevator will move in the direction based on the current request it is servicing
+	 * Elevator will also check to see if the current floor was requested
+	 * Elevator will open/close doors if the current floor was requested
+	*/
 	public void move() throws InterruptedException {
 		if (this.currentCall == null) {
 			this.currentCall = this.maxFloor();
@@ -224,6 +238,7 @@ public class Elevator{
 		
 	}
 	
+	//clearMotion: deletes all request
 	public void clearMotion() {
 		this.motionSet.clear();
 		this.currentCall = null;
@@ -236,6 +251,9 @@ public class Elevator{
         return weight <= 18;
     }
 	
+	/**getDoorStatus: 
+	 * @return boolean checks whether the door is open
+	 */
 	public boolean getDoorStatus() {
 		return this.door.getDoorStatus();
 	}
