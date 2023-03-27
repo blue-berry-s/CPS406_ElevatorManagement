@@ -2,6 +2,18 @@ package ElevatorManagementProject;
 
 import java.util.Scanner;
 
+/*
+ * TEST INSIDE BUTTON FUNCTIONALITY
+ * Inside Button can open elevator door
+ * Inside Button can close elevator doors
+ * Inside Buttons can make proper calls
+ * 
+ * 
+ * NOTE:
+ * Elevator door mode is default to AUTOMATIC OPEN + CLOSE
+ * (Therefore all open function would automatically close after certain period of time)
+ */
+
 public class Test_Buttons_03_27 {
 	
 	private static int time = 0;
@@ -51,21 +63,21 @@ public static void elevatorPrint(Elevator e1, Elevator e2) {
 			elevatorPrint(e1,e2);
 			
 			if (time == 2) {
-				e2Button.openDoorButton();
+				e2Button.openDoorButton(); //successfully opened e2 door
 			}
 			
 			else if (time == 3) {
-				e1Button.openDoorButton();
+				e1Button.openDoorButton(); //successfully opened e2 door
 			}
 			
 			else if (time == 4) {
-				e1Button.callFloor(floor6);
-				e2.getDoor().setMode(2);
-				e2.getDoor().open(e2);
+				e1Button.callFloor(floor6); //successfully call e1 to floor 6
+				e2.getDoor().setMode(2); //change mode to MANUAL OPEN AND CLOSE
+				e2.getDoor().open(e2); //successfully opened e2 door
 			}
 			
 			else if (time == 5) {
-				e2Button.closeDoorButton();
+				e2Button.closeDoorButton();//successfully closed e2 door
 			}
 			
 			while (!manager.callEmpty()) {
