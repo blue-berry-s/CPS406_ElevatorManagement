@@ -4,6 +4,7 @@ package ElevatorManagementProject;
  * OutsideButton
  */
 
+//Featuring potential fixes to the callElevator method 
 public class OutsideButton {
     private ElevatorManagement manager;
     private Floor floor;

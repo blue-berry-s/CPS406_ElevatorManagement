@@ -5,7 +5,7 @@ package ElevatorManagementProject;
 /**
  * InsideButton
  */
-
+//Featuring potential fixes to the openDoors(), closedoors(), callFloor() and setAlarm()
 public class InsideButton {
 
     private Elevator elevator;
@@ -33,8 +33,7 @@ public class InsideButton {
     public void closeDoors() {
         this.doorOpened = false;
         this.doorClosed = true;
-
-        //this.door.close();
+        this.door.close(this.elevator);
     }
 
     public void callFloor(int floor) throws InterruptedException {
