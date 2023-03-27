@@ -21,6 +21,7 @@ public class ElevatorManagement {
 	private HashSet<SpecialModes> managementModes;
 	
 		public ElevatorManagement() {
+			managementModes = new HashSet<SpecialModes>();
 		}
 		
 		//add elevator
@@ -62,7 +63,6 @@ public class ElevatorManagement {
 		public void setManagementModes(HashSet<SpecialModes> managementModes) {
 			this.managementModes = managementModes;
 		}
-
 		//Changes Elevator Management Arrays based on the Calls each Elevator is taking
 		//NOTE elevator motion may differ than their current service Call direction
 		//EG: if an elevator on floor 1 services a down call from floor 6
@@ -100,6 +100,16 @@ public class ElevatorManagement {
 							this.downElevators.remove(el);
 							this.idleElevators.add(el);
 						}					
+					}
+				}
+				else {
+					if (this.downElevators.contains(el)) {
+						this.downElevators.remove(el);
+						this.idleElevators.add(el);
+					}
+					else if (this.upElevators.contains(el)) {
+						this.upElevators.remove(el);
+						this.idleElevators.add(el);
 					}
 				}
 				
@@ -297,15 +307,30 @@ public class ElevatorManagement {
 		public void moveElevators() throws InterruptedException {
 			for (Elevator el: elevators) {
 				if (!(el.motionEmpty()) || el.getMotion() != 0) {
-					if (el.checkWeight(el.getWeight())) {
-						el.move();
+					Boolean weight = el.checkWeight(el.getWeight());
+					Boolean doors = el.getDoorStatus();
+					if (!weight && doors) {
+						System.out.println("E"+el.getId() +":Cannot move due to overweight and Doors Open");
+					}
+					else if (!weight) {
+						System.out.println("E"+el.getId() +":Cannot move due to Overweight");
+					}
+					else if (doors) {
+						if (el.getDoor().getMode() != 2 && el.getDoor().getMode() != 3) {
+							el.getDoor().close(el);
+							el.move();
+						}
+						else {
+							System.out.println("E"+el.getId() +":Cannot move due due to Doors Open");
+						}
 					}
 					else {
-						throw new InterruptedException("Elevator too heavy!");
+						el.move();
 					}
 				}
 			setArrays();
 			}
+			setArrays();
 		}
 		
 

@@ -3,7 +3,6 @@ package ElevatorManagementProject;
 /**
  * OutsideButton
  */
-
 public class OutsideButton {
     private ElevatorManagement manager;
     private Floor floor;

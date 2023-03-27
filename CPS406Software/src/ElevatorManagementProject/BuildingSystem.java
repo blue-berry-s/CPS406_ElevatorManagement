@@ -52,7 +52,7 @@ public class BuildingSystem {
 	}
 
 	public void deactivateFireAlarm() {
-		this.fireStatus = true; 
+		this.fireStatus = false; 
 		
 	}
 

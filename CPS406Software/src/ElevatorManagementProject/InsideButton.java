@@ -71,9 +71,9 @@ public class InsideButton {
     */
     public boolean openDoorButton() throws InterruptedException {
     	if (this.elevator.getMotion() == 0) {
-    		this.door1.open(elevator);
+    		this.elevator.getDoor().open(elevator);
         	TimeUnit.SECONDS.sleep(1);
-    		this.door1.close(elevator);
+        	this.elevator.getDoor().close(elevator);	
         	return true;
     	} else {
     		return false;
@@ -88,7 +88,7 @@ public class InsideButton {
     * @throws InterruptedException 
     */
     public boolean closeDoorButton() throws InterruptedException {
-        this.door1.close(elevator);
+    	this.elevator.getDoor().close(this.elevator);
     	return true;    	
     }
 
@@ -101,7 +101,7 @@ public class InsideButton {
     */
     public boolean setFireAlarm(Floor recall, BuildingSystem building) throws InterruptedException {
         this.handler.addEmergencyModes(new FireEmergency(this.elevator.getlocation(), recall, building));
-        this.door1.open(elevator);
+        this.elevator.getDoor().open(this.elevator);
         return true;
     }
 
