@@ -45,7 +45,7 @@ private static int time = 0;
 		Call call1 = new Call(floor1, floor6, e1);
 		Call call2 = new Call(floor1, floor4, e2);
 		SpecialModeHandler handler = new SpecialModeHandler(manager);
-		BuildingSystem MedicalCampus = new BuildingSystem(manager, handler, floor1);
+		BuildingSystem MedicalCampus = new BuildingSystem(handler, floor1);
  		
 	
 		manager.addElevator(e1);
