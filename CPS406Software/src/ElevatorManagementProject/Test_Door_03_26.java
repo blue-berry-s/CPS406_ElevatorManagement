@@ -2,7 +2,7 @@ package ElevatorManagementProject;
 
 import java.util.Scanner;
 
-public class Test_Doos_03_26 {
+public class Test_Door_03_26 {
 private static int time = 0;
 	
 	public static void elevatorPrint(Elevator e1, Elevator e2) {
