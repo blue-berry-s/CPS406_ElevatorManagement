@@ -207,11 +207,10 @@ public class Elevator{
 		}
 		else {
 			//STOP at this floor if the current floor is in motionSet
-			if (this.setContains(this.location) && !(this.currentCall.getRequest().equals(this.location))) {
+			if (this.setContains(this.location) && (!this.currentCall.getRequest().equals(this.location))) {
 				if (this.door.getMode() != 2) {
 					this.motionSet.removeIf(n -> (n.equals(new Call(this.location, this.motion))));
 					this.door.open(this);
-					TimeUnit.SECONDS.sleep(1);
 					}
 				}
 			//If Elevator not at the callRequest - start moving
@@ -231,7 +230,6 @@ public class Elevator{
 					this.motion = 0;
 					this.currentCall = null;
 					this.door.open(this);
-					TimeUnit.SECONDS.sleep(1);
 				}
 			}
 		}

@@ -18,8 +18,8 @@ public class OutsideButton {
     * @param	direction	The direction (1 for up, -1 for down)
     * @return				Whether the operation was successful
     */
-    public boolean callElevator(Floor floor, int direction) {
-       	this.manager.addCall(new Call(floor, direction));
+    public boolean callElevator(int direction) {
+       	this.manager.addCall(new Call(this.floor, direction));
        	return true;
         
     }

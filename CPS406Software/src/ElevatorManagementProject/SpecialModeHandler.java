@@ -55,6 +55,7 @@ public class SpecialModeHandler {
 			if (modeCheck == true) {
 				if (mode.getBuilding().getPower() == true) {
 					for (Elevator e1: manager.getElevators()) {
+						e1.setPower(true);
 						manager.activateElevator(e1);
 						e1.getDoor().setMode(1);
 					}
@@ -154,6 +155,8 @@ public class SpecialModeHandler {
 	//method to handle all emergency modes at once
 	/**
 	 *@return boolean - returns True if mode was successfully activated, False otherwise
+	 *NOTE ALL special modes that uses the manager.deactivateElevator() function needs to use it first
+	 *and add the call to the elevator directly (As using the manager would produce an error)
 	 */
 	public void handleEmergencyModes() throws InterruptedException {
 		//activate backup power 
@@ -169,10 +172,10 @@ public class SpecialModeHandler {
 					System.out.println("---ALL ELEVATORS RETURNING TO LOBBY--");
 					for (Elevator e1: manager.getElevators()) {
 						EmergencyPower convert = (EmergencyPower) check;
-						e1.clearMotion();
+						e1.setPower(false);
+						manager.deactivateElevator(e1);
 						Call recall = new Call(convert.getLobby(), convert.getLobby(), e1);
 						e1.addMotion(recall);
-						manager.deactivateElevator(e1);
 						manager.getManagementModes().add(check);
 						e1.getDoor().setMode(3);
 					}
@@ -193,9 +196,10 @@ public class SpecialModeHandler {
 				FireEmergency convert = (FireEmergency) check;
 				e1.clearMotion();
 				Call recall = new Call(convert.getRecall(), convert.getRecall(), e1);
+				manager.deactivateElevator(e1);
 				e1.addMotion(recall);
 				e1.getDoor().setMode(3);
-				manager.deactivateElevator(e1);
+				
 					
 				System.out.println("***FIRE EMERGENCY MODE ACTIVATED, ELEVATORS MOVING TO EVACUATION FLOOR, PLEASE EVACUATE UPON ARRIVAL***");
 				
@@ -218,7 +222,6 @@ public class SpecialModeHandler {
 				Call medicalCalls = new Call(convert.getEmergencyFloor(), convert.getEmergencyFloor(),ele);
 				manager.deactivateElevator(ele);
 				manager.addMedicalElevator(ele);
-				elevator.clearMotion();
 				elevator.addMotion(medicalCalls);
 				ele.getCurrentlyActiveModes().add(check);
 			}

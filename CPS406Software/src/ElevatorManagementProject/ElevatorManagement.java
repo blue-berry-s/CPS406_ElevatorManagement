@@ -273,10 +273,15 @@ public class ElevatorManagement {
 		
 		/**
 		    *Deactivates elevators and prevent them from taking anymore calls
-		    *@param		Elevator		
+		    *@param		Elevator	
+		    *NOTICE: Elevators can still take calls (and move if not overweight or no power)
+		    *Elevator Management will simply not take calls but
+		    *Internally, we can add directly to the Elevator's motion set
 		    */
 		public void deactivateElevator(Elevator elevator) {
 			elevator.setEnable(false);
+			elevator.clearMotion();
+			elevator.setMotion(0);
 			if (idleElevators.contains(elevator)) {
 				idleElevators.remove(elevator);
 			}
@@ -298,7 +303,7 @@ public class ElevatorManagement {
 			if (disableElevators.contains(elevator)) {
 				disableElevators.remove(elevator);
 			}
-			else if (medicalElevators.contains(elevator)) {
+			if (medicalElevators.contains(elevator)) {
 				medicalElevators.remove(elevator);
 			}
 			idleElevators.add(elevator);
@@ -320,11 +325,16 @@ public class ElevatorManagement {
 		public ArrayList<Boolean> moveElevators() throws InterruptedException {
 			ArrayList<Boolean> elevatorMoved = new ArrayList<Boolean>();
 			for (Elevator el: elevators) {
-				if ((!(el.motionEmpty()) || el.getMotion() != 0)) {
+				if ((!el.motionEmpty() || el.getMotion() != 0)) {
 					Boolean weight = el.checkWeight(el.getWeight());
 					Boolean doors = el.getDoorStatus();
-					if (!weight && doors) {
-						System.out.println("ERROR: E"+el.getId() +":Cannot move due to overweight and Doors Open");
+					Boolean power = el.isPower();
+					if (!weight && doors && !power) {
+						System.out.println("ERROR: E"+el.getId() +":Cannot move due to overweight and Doors Open and no POWER");
+						elevatorMoved.add(false);
+					}
+					else if (!power) {
+						System.out.println("ERROR: E"+el.getId() +":Cannot move due to no power");
 						elevatorMoved.add(false);
 					}
 					else if (!weight) {
