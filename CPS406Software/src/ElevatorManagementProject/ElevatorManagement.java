@@ -215,16 +215,12 @@ public class ElevatorManagement {
 			
 		}
 		
-		// Takes calls from callQueue and send it to the correct Elevator
-		// OR indicate to user that no elevator can service the current call
-		// CHANGE REQUEST:
-		// takeCall should have some kind of error system for both Log and UI (will need to contact remey)
-		// takeCall should either return or throw an error to indicate if the request was successful  or not
-		// I feel like some of the if statments are redundant/repetitive 
-		// EG: logically i feel like !(this.upElevators.isEmpty()) is redundant since .getNearest and .getLowest
-		// should be able to handle empty lists
-		// get.lowest should also have a CHECK since it may return NULL
-		public void takeCall() {
+		/**
+		 * @JOSH should throw error if the call can not be serviced
+		    *Elevator Manager handles a call request and send it to the correct elevator
+		    * @return	boolean		returns True if the call was serviced, returns False if it is unable to be serviced
+		    */
+		public boolean takeCall() {
 			Call request = callQueue.poll();
 			if (request.getElevator() == null) {
 				//if there are no idle elevators to pick from
@@ -233,6 +229,7 @@ public class ElevatorManagement {
 					//probably change this to throw error instead
 					if (upElevators.isEmpty() && downElevators.isEmpty()) {
 						System.out.println("ERROR: NO ELEVATORS IN SERVICE");
+						return false;
 					}
 					else if (request.getDirection() == 1) {
 						Elevator check = this.getNearest(request.current, this.upElevators, 1);
@@ -254,7 +251,7 @@ public class ElevatorManagement {
 						}
 					}
 				}
-				//if there are idle elevators to pickfrom
+				//if there are idle elevators
 				else {
 					this.getNearest(request.current, this.idleElevators, 0).addMotion(request);
 				}
@@ -266,12 +263,18 @@ public class ElevatorManagement {
 					request.getElevator().addMotion(request);
 				}
 				else {
-					System.out.println("Not in Service");
+					System.out.println("ERROR:NOT IN SERVICE");
+					return false;
 				}
 				
 			}
+			return true;
 		}
 		
+		/**
+		    *Deactivates elevators and prevent them from taking anymore calls
+		    *@param		Elevator		
+		    */
 		public void deactivateElevator(Elevator elevator) {
 			elevator.setEnable(false);
 			if (idleElevators.contains(elevator)) {
@@ -283,10 +286,13 @@ public class ElevatorManagement {
 			else if (downElevators.contains(elevator)) {
 				downElevators.remove(elevator);
 			}
-			disableElevators.add(elevator);
+			if (!disableElevators.contains(elevator)) {
+				disableElevators.add(elevator);
+			}
+			
 		}
 		
-		//add elevator back to idle elevators to be used again 
+		//add elevator back to idle elevators to be used again
 		public void activateElevator(Elevator elevator) {
 			elevator.setEnable(true);
 			if (disableElevators.contains(elevator)) {
@@ -306,39 +312,45 @@ public class ElevatorManagement {
 		}
 		
 		
-		//Move all the elevators
-		// CHANGE REQUEST:
-		// there may need to be changes here but im currently not sure whether it should be implemented here or elsewhere
-		// 1) Elevators should not move if it is above the current weight
-		// 2) Elevator management system should also check with building system and special modes
-		// 3) Elevator managment also needs to service special mode classes?
-		public void moveElevators() throws InterruptedException {
+		/**
+		 * @JOSH should throw error if the elevators are overweight or doors are open etc
+		    *Elevator Manager sends movement signals to Elevators that can move
+		    * @return	ArrayList<Boolean>	returns an Arraylist with a boolean that indicates whether each elevator was moved or not
+		    */
+		public ArrayList<Boolean> moveElevators() throws InterruptedException {
+			ArrayList<Boolean> elevatorMoved = new ArrayList<Boolean>();
 			for (Elevator el: elevators) {
-				if ((!(el.motionEmpty()) || el.getMotion() != 0) && el.isEnable()) {
+				if ((!(el.motionEmpty()) || el.getMotion() != 0)) {
 					Boolean weight = el.checkWeight(el.getWeight());
 					Boolean doors = el.getDoorStatus();
 					if (!weight && doors) {
-						System.out.println("E"+el.getId() +":Cannot move due to overweight and Doors Open");
+						System.out.println("ERROR: E"+el.getId() +":Cannot move due to overweight and Doors Open");
+						elevatorMoved.add(false);
 					}
 					else if (!weight) {
-						System.out.println("E"+el.getId() +":Cannot move due to Overweight");
+						System.out.println("ERROR: E"+el.getId() +":Cannot move due to Overweight");
+						elevatorMoved.add(false);
 					}
 					else if (doors) {
 						if (el.getDoor().getMode() != 2 && el.getDoor().getMode() != 3) {
 							el.getDoor().close(el);
 							el.move();
+							elevatorMoved.add(true);
 						}
 						else {
-							System.out.println("E"+el.getId() +":Cannot move due due to Doors Open");
+							System.out.println("ERROR: E"+el.getId() +":Cannot move due to Doors Open");
+							elevatorMoved.add(false);
 						}
 					}
 					else {
 						el.move();
+						elevatorMoved.add(true);
 					}
 				}
 			setArrays();
 			}
 			setArrays();
+			return elevatorMoved;
 		}
 		
 

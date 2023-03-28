@@ -1,5 +1,16 @@
 package ElevatorManagementProject;
 
+/*
+ * TEST DOOR MODE FUNCTIONALITY
+ * tests that when sets to AUTO OPEN MANUAL CLOSE elevators should not close doors after arriving at location
+ * tests that elevator is unable to move due to doors being open
+ * 
+ * 
+ * NOTE:
+ * Elevator door mode is default to AUTOMATIC OPEN + CLOSE
+ * (Therefore all open function would automatically close after certain period of time)
+ */
+
 import java.util.Scanner;
 
 public class Test_Door_Modes_03_26 {
@@ -43,8 +54,8 @@ private static int time = 0;
 		manager.addElevator(e2);
 		manager.addCall(call1);
 		manager.addCall(call2);
-		door1.setMode(3);
-		door2.setMode(3);
+		door1.setMode(3);//change door modes to be AUTO OPEN MANUAL CLOSE
+		door2.setMode(3);//change door modes to be AUTO OPEN MANUAL CLOSE
 		
 		elevatorPrint(e1,e2);
 		Scanner input = new Scanner(System.in);
@@ -55,7 +66,7 @@ private static int time = 0;
 			elevatorPrint(e1,e2);
 			
 			if(time == 10) {
-				manager.addCall(call3);
+				manager.addCall(call3); //Elevator should not be able to service calls since their doors are still open
 			}
 			
 			while (!manager.callEmpty()) {

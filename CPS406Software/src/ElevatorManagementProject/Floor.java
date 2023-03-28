@@ -1,5 +1,11 @@
 package ElevatorManagementProject;
 
+/*
+ * Floor
+ * Represents a floor object, with information needed for elevators and other classes to use
+ * 
+ */
+
 public class Floor {
 
 	//Floor variables 
@@ -38,13 +44,17 @@ public class Floor {
 	}
 	
 	
-	//currentFloor: Returns current floor (technically floor getter)
+	//currentFloor: Returns current floor number
 	public int currentFloor () {
 		return floor; 
 		
 	}
 		
-	//setFloor: sets the current floor 
+	/**@JOSH should throw an error for invalid floor
+	 *setFloor: sets the current floor
+	 *  
+	 * @param int - integer that represents the current floor number
+	 */
 	public void setFloor(int floor) {
 		
 		//Accounts for invalid floors 

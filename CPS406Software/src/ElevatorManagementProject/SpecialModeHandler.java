@@ -1,34 +1,46 @@
 package ElevatorManagementProject;
 
+/*
+ * Special Mode Handler
+ * 
+ * Handler for special modes invoked by user or building systems or building patrons
+ * Functionality:
+ * - Receives special mode requests
+ * - Checks whether a special mode can be handled
+ * - Activate special modes
+ * - Deactivate special modes
+ * 
+ */
+
 import java.util.PriorityQueue;
 
 public class SpecialModeHandler {
 	private ElevatorManagement manager; 
 	private Elevator elevator;
-	//private PriorityQueue<Integer> modeQueue;
 	private PriorityQueue<SpecialModes> modeQueue;
-	//private FireEmergency fire; 
-	//private EmergencyPower outage; 
-	//private MedicalEmergency medical; 
-	private BuildingSystem building; 
-	//private Door door; 
-	
+
 	public SpecialModeHandler(ElevatorManagement manager) {
-		//modeQueue = new PriorityQueue<Integer>();
-		//this.building = building;
 		this.modeQueue = new PriorityQueue<SpecialModes>();
 		this.manager = manager;
 	}
 	
 	
-	//Add a mode to the mode queue 
+	//Add a special mode request to special mode queue
 	public void addEmergencyModes(SpecialModes mode) {
 		this.modeQueue.add(mode);
+	}
+	
+	//Checks whether there are special mode requests
+	public boolean isEmpty() {
+		return this.modeQueue.size() == 0;
 	}
 	
 	//Deactivates emergency power mode by checking if it is active for all elevators (in manager modes)
 	//It then checks if the building has power yet, if not it keeps the mode active 
 	//Otherwise it says the mode isnt active 
+	/**
+	 *@return boolean - returns True if mode was successfully deactivated, False otherwise
+	 */
 	public void deactivatePowerEmergency() {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
@@ -68,6 +80,9 @@ public class SpecialModeHandler {
 	
 	//ALMOST identical to deactivate power mode, checks if mode exists, 
 	//resets elevators, deactivates the alarm
+	/**
+	 *@return boolean - returns True if mode was successfully deactivated, False otherwise
+	 */
 	public void deactivateFireEmergency() {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
@@ -100,6 +115,9 @@ public class SpecialModeHandler {
 		
 	}
 	
+	/**
+	 *@return boolean - returns True if mode was successfully deactivated, False otherwise
+	 */
 	public void deactivateMedicalEmergency(Elevator e1) {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
@@ -133,7 +151,10 @@ public class SpecialModeHandler {
 	}
 	
 	
-	//method to handle all emergency modes at once 
+	//method to handle all emergency modes at once
+	/**
+	 *@return boolean - returns True if mode was successfully activated, False otherwise
+	 */
 	public void handleEmergencyModes() throws InterruptedException {
 		//activate backup power 
 		SpecialModes check = modeQueue.poll();
@@ -173,8 +194,8 @@ public class SpecialModeHandler {
 				e1.clearMotion();
 				Call recall = new Call(convert.getRecall(), convert.getRecall(), e1);
 				e1.addMotion(recall);
-				manager.deactivateElevator(e1);
 				e1.getDoor().setMode(3);
+				manager.deactivateElevator(e1);
 					
 				System.out.println("***FIRE EMERGENCY MODE ACTIVATED, ELEVATORS MOVING TO EVACUATION FLOOR, PLEASE EVACUATE UPON ARRIVAL***");
 				

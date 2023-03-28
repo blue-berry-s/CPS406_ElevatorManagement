@@ -9,6 +9,7 @@ import java.util.Scanner;
  * FireEmergency - gets handled second (pulls all elevator to lobby and deactivated)
  * MedicalEmergency - handled last - since no elevator is available - it will print appropriate messages
  * 
+ * 03-27 - unfortunately both print statement happens despite medical emergency is not capable of being handled
  * */
 
 
@@ -30,8 +31,6 @@ private static int time = 0;
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		//Creating scanner object 
-		//movement 1 = up, 0 = same, -1 = down
 		Floor floor1 = new Floor(1);
 		Floor floor2 = new Floor(2);
 		Floor floor3 = new Floor(3);
@@ -39,8 +38,10 @@ private static int time = 0;
 		Floor floor5 = new Floor(5);
 		Floor floor6 = new Floor(6);
 		ElevatorManagement manager = new ElevatorManagement();
-		Elevator e1 = new Elevator();
-		Elevator e2 = new Elevator();
+		Door door1 = new Door();
+		Door door2 = new Door();
+		Elevator e1 = new Elevator(door1);
+		Elevator e2 = new Elevator(door2);
 		Call call1 = new Call(floor1, floor6, e1);
 		Call call2 = new Call(floor1, floor4, e2);
 		SpecialModeHandler handler = new SpecialModeHandler(manager);

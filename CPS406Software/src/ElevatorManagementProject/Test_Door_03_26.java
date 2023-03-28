@@ -2,6 +2,14 @@ package ElevatorManagementProject;
 
 import java.util.Scanner;
 
+/*
+ * TEST DOORS
+ *test door printing
+ *test doors automatically open and close after arriving at proper location
+ * 
+ * 
+ */
+
 public class Test_Door_03_26 {
 private static int time = 0;
 	

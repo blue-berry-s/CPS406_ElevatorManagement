@@ -3,9 +3,9 @@ package ElevatorManagementProject;
 import java.util.Scanner;
 
 /*
- * TEST FIRE EMERGENCY MEDICAL MODE ACTIVATION USING BUILDING SYSTEM
+ * TEST EMERGENCY POWER ACTIVATION
  * RESULTS:
- * Building.actiate Fire alarm activate the fire emergency and recalls all elevators
+ * building switch to back up power (elevator functionality not affected)
  * 
  * */
 
@@ -37,12 +37,15 @@ private static int time = 0;
 		Floor floor5 = new Floor(5);
 		Floor floor6 = new Floor(6);
 		ElevatorManagement manager = new ElevatorManagement();
-		Elevator e1 = new Elevator();
-		Elevator e2 = new Elevator();
+		Door door1 = new Door();
+		Door door2 = new Door();
+		Elevator e1 = new Elevator(door1);
+		Elevator e2 = new Elevator(door2);
 		Call call1 = new Call(floor1, floor6, e1);
 		Call call2 = new Call(floor1, floor4, e2);
 		SpecialModeHandler handler = new SpecialModeHandler(manager);
 		BuildingSystem MedicalCampus = new BuildingSystem(handler, floor1);
+		
  		
 		manager.addElevator(e1);
 		manager.addElevator(e2);

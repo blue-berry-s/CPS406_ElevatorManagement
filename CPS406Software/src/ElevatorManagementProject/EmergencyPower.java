@@ -30,10 +30,7 @@ public class EmergencyPower extends SpecialModes {
 		return this.power.getGenerator();
 	}
 	
-	public int getPriority() {
-		return priority;
-	}
-	
+	//returns the lobby floor
 	public Floor getLobby() {
 		return this.lobby;
 	}

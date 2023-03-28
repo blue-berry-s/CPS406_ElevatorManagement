@@ -4,8 +4,7 @@ public class FireEmergency extends SpecialModes {
 	private static int FIRE = 1;
 	private Floor recall;
 	
-	//Constructor, takes floor to say which floor the fire
-	//emergency was activated on 
+	//Constructor, takes floor to say which floor the fire emergency was activated on 
 	public FireEmergency(Floor current, Floor recall, BuildingSystem building) {
 		super(current, building);
 		this.active = true;
@@ -13,10 +12,8 @@ public class FireEmergency extends SpecialModes {
 		this.recall = recall;
 	}
 	
+	//returns the recall floor
 	public Floor getRecall() {
 		return this.recall;
-	}
-	public int getPriority() {
-		return priority;
 	}
 }
