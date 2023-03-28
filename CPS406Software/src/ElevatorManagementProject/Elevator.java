@@ -99,6 +99,11 @@ public class Elevator{
 		return this.location;
 	}
 	
+	//A HELPER TESTER FUNCTION - SHOULD NOT BE USED IN ACTUAL PRACTICE
+	public void setLocation(Floor floor) {
+		this.location = floor;
+	}
+	
 	//Sets the currently active modes set 
 	public void setCurrentlyActiveModes(HashSet<SpecialModes> activeModes){
 		this.activeModes = activeModes;
