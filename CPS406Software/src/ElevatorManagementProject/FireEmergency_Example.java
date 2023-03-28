@@ -2,7 +2,17 @@ package ElevatorManagementProject;
 
 import java.util.Scanner;
 
-public class SpecialMode_Example {
+/*
+ * 
+ * FireEmergency Example
+ * 
+ * This Class demonstrates how to activate Fire Emergency using the Class directly or BuildingSystem object
+ * 
+ * 
+ * 
+ */
+
+public class FireEmergency_Example {
 private static int time = 0;
 	
 	public static void elevatorPrint(Elevator e1, Elevator e2) {
@@ -42,10 +52,10 @@ private static int time = 0;
 		OutsideButton floor3Button = new OutsideButton(manager,floor3);
 		EmergencyPower powerOutage1 = new EmergencyPower(floor1, floor1, MedicalCampus);
 		EmergencyPower powerOutage2 = new EmergencyPower(floor2, floor1, MedicalCampus);
+		
+		//Constructor for FireEmergency
 		FireEmergency fire1 = new FireEmergency(floor6, floor4, MedicalCampus);
-		MedicalEmergency medical1 = new MedicalEmergency(floor5, floor5, MedicalCampus);
-		MedicalEmergency medical2 = new MedicalEmergency(floor5, floor3, MedicalCampus);
-		MedicalEmergency medical3 = new MedicalEmergency(floor5, floor2, MedicalCampus);
+		
 		
 		
 		//make sure you add the elevator object to the manager or else elevators will never receive calls
@@ -65,21 +75,37 @@ private static int time = 0;
 			elevatorPrint(e1,e2);
 			
 			if (time == 1) {
+				//this is how you add FireEmergency to the handler directly
 				handler.addEmergencyModes(fire1);
 			}
 			else if (time == 4) {
+				//Any Calls made during this time should not be handled
 				manager.addCall(call1);
 				floor3Button.callElevator(-1);
 			}
 			else if (time == 7) {
+				//This is how you deactivate FireEmergency using the handler
+				//@ALEXIA - elevator does not move despite calls being made
 				handler.deactivateFireEmergency();
+				manager.addCall(call1);
+				manager.addCall(call2);
 			}
 			
-			
-			
-			
-			
-			
+			else if (time == 10) {
+				//This is how you activate FireEmergency using the BuildingSystem object
+				MedicalCampus.activateFireAlarm();
+			}
+			else if (time == 15) {
+				//Any calls made during this time should not be accepted
+				manager.addCall(call1);
+				manager.addCall(call2);
+			}
+			else if (time == 16) {
+				//This is how you deactivate FireEmergency using the BuildingSystem object
+				MedicalCampus.deactivateFireAlarm();
+				manager.addCall(call1);
+				manager.addCall(call2);
+			}
 			
 			while (!handler.isEmpty()) {
 				handler.handleEmergencyModes();
