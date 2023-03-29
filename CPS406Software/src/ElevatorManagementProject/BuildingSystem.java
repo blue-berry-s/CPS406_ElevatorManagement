@@ -53,6 +53,9 @@ public class BuildingSystem {
 	    * @param	boolean power					
 	    */
 	public void setGenerator(boolean power) {
+		//maybe do a check here to see if power == false
+		// if this is the case, trigger Emergency Power mode
+		//@Alexia
 		this.backupGenerator = power;
 	}
 	/**
