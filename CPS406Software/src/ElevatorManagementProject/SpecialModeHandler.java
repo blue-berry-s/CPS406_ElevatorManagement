@@ -172,7 +172,7 @@ public class SpecialModeHandler {
 					System.out.println("---ALL ELEVATORS RETURNING TO LOBBY--");
 					for (Elevator e1: manager.getElevators()) {
 						EmergencyPower convert = (EmergencyPower) check;
-						e1.setPower(false);
+						//e1.setPower(false);
 						manager.deactivateElevator(e1);
 						Call recall = new Call(convert.getLobby(), convert.getLobby(), e1);
 						e1.addMotion(recall);
@@ -222,7 +222,7 @@ public class SpecialModeHandler {
 				Call medicalCalls = new Call(convert.getEmergencyFloor(), convert.getEmergencyFloor(),ele);
 				manager.deactivateElevator(ele);
 				manager.addMedicalElevator(ele);
-				elevator.addMotion(medicalCalls);
+				ele.addMotion(medicalCalls);
 				ele.getCurrentlyActiveModes().add(check);
 			}
 			

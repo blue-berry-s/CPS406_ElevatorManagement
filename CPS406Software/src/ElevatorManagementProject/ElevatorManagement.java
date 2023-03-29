@@ -198,16 +198,11 @@ public class ElevatorManagement {
 			Ele1 = this.getNearest(floor, this.idleElevators, 0);
 			Ele2 = this.getNearest(floor, this.upElevators, 0);
 			Ele3 = this.getNearest(floor, this.downElevators, 0);
-			if (Ele1 == null) {
-				if (Ele2 == null) {
-					return Ele3;
-				}
-				else {
-					return Ele2;
-				}
+			if (Ele1 != null) {
+				return Ele1;
 			}
-			else if (Ele2 == null) {
-				return Ele3;
+			else if (Ele2 != null) {
+				return Ele2;
 			}
 			else {
 				return Ele3;

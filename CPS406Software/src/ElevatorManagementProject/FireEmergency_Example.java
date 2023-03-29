@@ -7,8 +7,9 @@ import java.util.Scanner;
  * FireEmergency Example
  * 
  * This Class demonstrates how to activate Fire Emergency using the Class directly or BuildingSystem object
- * 
- * 
+ * Follows the steps given in Use Case Scenario
+ * All Elevators is disabled and heads to recall floor with their doors open
+ * no elevators will service any other calls during this time
  * 
  */
 
