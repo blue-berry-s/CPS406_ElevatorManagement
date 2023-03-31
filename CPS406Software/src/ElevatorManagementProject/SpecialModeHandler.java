@@ -113,6 +113,9 @@ public class SpecialModeHandler {
 					e1.getDoor().setMode(1);
 				}
 				mode.getBuilding().deactivateFireAlarm();
+				for (Elevator e1: manager.getElevators()) {
+					e1.getDoor().close(e1);
+				}
 				manager.getManagementModes().removeIf(f -> f instanceof FireEmergency);
 				System.out.println("***EMERGENCY FIRE MODE HAS BEEN DEACTIVATED***");
 			}
