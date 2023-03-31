@@ -101,7 +101,7 @@ public class Elevator{
 	
 	//A HELPER TESTER FUNCTION - SHOULD NOT BE USED IN ACTUAL PRACTICE
 	public void setLocation(Floor floor) {
-		this.location = floor;
+		this.location = new Floor(floor.currentFloor());
 	}
 	
 	//Sets the currently active modes set 
