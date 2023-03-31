@@ -58,6 +58,18 @@ public class SpecialModeHandler {
 						e1.setPower(true);
 						manager.activateElevator(e1);
 						e1.getDoor().setMode(1);
+						
+					}
+					//remove all instances of emergencypower mode from manager list 
+					manager.getManagementModes().removeIf(i -> i instanceof EmergencyPower);
+					System.out.print("---EMERGENCY POWER MODE HAS BEEN DEACTIVATED---");
+				}
+				else if (mode.getBuilding().getGenerator() == true) {
+					for (Elevator e1: manager.getElevators()) {
+						e1.setPower(true);
+						manager.activateElevator(e1);
+						e1.getDoor().setMode(1);
+						
 					}
 					//remove all instances of emergencypower mode from manager list 
 					manager.getManagementModes().removeIf(i -> i instanceof EmergencyPower);
@@ -213,10 +225,9 @@ public class SpecialModeHandler {
 		//clear all current calls and move the elevator 
 		else if (check.getPriority() == 2) {
 			MedicalEmergency convert = (MedicalEmergency) check;
-			System.out.println("+++Medical Emergency Mode Activated, Proceeding To Emergency Floor");
 			Elevator ele = this.pickElevator(convert.getEmergencyFloor());
 			if (ele == null) {
-				System.out.println("NO ELEVATOR IN SERVICE");
+				System.out.println("NO ELEVATORS IN SERVICE");
 			}
 			else {
 				Call medicalCalls = new Call(convert.getEmergencyFloor(), convert.getEmergencyFloor(),ele);
@@ -224,6 +235,7 @@ public class SpecialModeHandler {
 				manager.addMedicalElevator(ele);
 				ele.addMotion(medicalCalls);
 				ele.getCurrentlyActiveModes().add(check);
+				System.out.println("+++MEDICAL EMERGENCY MODE ACTIVATED, PROCEEDING TO EMERGENCY FLOOR+++");
 			}
 			
 		}

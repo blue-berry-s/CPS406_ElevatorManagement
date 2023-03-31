@@ -28,7 +28,7 @@ public class Movement_Example {
 			System.out.println("[-- E" +e1.getId()  + "--\t]\t[-- E" +e2.getId()  + "--]");
 			System.out.println("|Location: " +  e1.getlocation().currentFloor() + "\t|\t|Location: " +  e2.getlocation().currentFloor()+"\t|");
 			System.out.println("|IsMotion: " + e1.getMotion() + "\t|\t|IsMotion: " + e2.getMotion()+"\t|");
-			System.out.println("|IsPower: " + e1.isPower() + "\t|\t|IsPower: " + e2.isPower()+"\t|");
+			//System.out.println("|IsPower: " + e1.isPower() + "\t|\t|IsPower: " + e2.isPower()+"\t|");
 			System.out.println("|IsEnabled: " + e1.isEnable() + "|\t|IsEnabled: " + e2.isEnable()+"|");
 			System.out.println("|Door: " + e1.getDoorStatus()+ "\t|\t|Door: " + e2.getDoorStatus()+"\t|");
 			
@@ -103,10 +103,9 @@ public class Movement_Example {
 				}
 				
 				//notice how elevators should not move if DISABLED
-				//notice how elevators should not move if no power
 				else if (time == 14) {
 					manager.deactivateElevator(e1);
-					e2.setPower(false);
+					//e2.setPower(false);
 					manager.addCall(call1);
 					manager.addCall(call2);
 				}

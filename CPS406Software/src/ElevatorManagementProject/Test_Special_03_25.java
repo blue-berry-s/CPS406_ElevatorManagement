@@ -23,7 +23,7 @@ private static int time = 0;
 		System.out.println("Location: " +  e1.getlocation().currentFloor());
 		//System.out.println("Weight: " +  e1.getWeight());
 		System.out.println("IsMotion: " + e1.getMotion());
-		System.out.println("IsPower: " + e1.isPower());
+		//System.out.println("IsPower: " + e1.isPower());
 		System.out.println("IsEnabled: " + e1.isEnable());
 		//System.out.println(" ");
 		

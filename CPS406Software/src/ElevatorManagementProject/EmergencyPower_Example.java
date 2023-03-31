@@ -47,7 +47,7 @@ public static void main(String[] args) throws InterruptedException {
 	
 	//constructor for EmergencyPower Mode calls
 	//MedicalEmergency (current floor its called on, recall/lobby floor, building)
-	MedicalEmergency medical1 = new MedicalEmergency(floor5, floor5, MedicalCampus);
+	MedicalEmergency medical1 = new MedicalEmergency(floor5, floor1, MedicalCampus);
 	EmergencyPower powerOutage1 = new EmergencyPower(floor1, floor1, MedicalCampus);
 	EmergencyPower powerOutage2 = new EmergencyPower(floor2, floor1, MedicalCampus);
 	
