@@ -49,17 +49,26 @@ public class Door {
     
     /**
      * This function simulates doors closing
-     * @param	Elevator elevator information on which Elevator is currently opening door
+     * @param    Elevator ele to indicate a specific Elevator object to close doors of
      * @throws InterruptedException 
      */
-    public void close(Elevator ele) {
-    	isOpen = false;
-    	System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );	
+    public void close(Elevator ele) throws InterruptedException {
+        if (!isOpen) {
+            System.out.println("E" + ele.getId() + ": Doors are already closed.");
+        } else {
+            isOpen = false;
+            System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );    
+        }
     }
 
+    /**
+     * This function performs mode 1 of Doors to autmatically open and close Elevator doors
+     * @param    Elevator ele to indicate a specific Elevator object to open and close doors of
+     * @throws InterruptedException 
+     */
     private void autoOpenAndClose(Elevator ele) throws InterruptedException {
-    	isOpen = true;
-    	System.out.println("E" + ele.getId() + ": Doors Opened [isOpen:" + this.isOpen + "]" );
+        isOpen = true;
+        System.out.println("E" + ele.getId() + ": Doors Opened [isOpen:" + this.isOpen + "]" );
         TimeUnit.SECONDS.sleep(3);
         isOpen = false;
         System.out.println("E" + ele.getId() + ": Doors Closed [isOpen:" + this.isOpen + "]" );
