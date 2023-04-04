@@ -200,7 +200,6 @@ public class Elevator{
 	
 	/**
 	 * Elevator Moves
-	 * @JOSH - InterruptedException should be Caught 
 	 * Elevator will move in the direction based on the current request it is servicing
 	 * Elevator will also check to see if the current floor was requested
 	 * Elevator will open/close doors if the current floor was requested

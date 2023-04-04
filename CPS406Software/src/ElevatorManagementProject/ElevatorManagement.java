@@ -211,7 +211,6 @@ public class ElevatorManagement {
 		}
 		
 		/**
-		 * @JOSH should throw error if the call can not be serviced
 		    *Elevator Manager handles a call request and send it to the correct elevator
 		    * @return	boolean		returns True if the call was serviced, returns False if it is unable to be serviced
 		    */
@@ -313,7 +312,6 @@ public class ElevatorManagement {
 		
 		
 		/**
-		 * @JOSH should throw error if the elevators are overweight or doors are open etc
 		    *Elevator Manager sends movement signals to Elevators that can move
 		    * @return	ArrayList<Boolean>	returns an Arraylist with a boolean that indicates whether each elevator was moved or not
 		    */

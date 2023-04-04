@@ -90,8 +90,6 @@ public class Door {
     }
     
     /**
-     * @JOSH - THIS SHOUld throw an error and should be caught
-     * function to set the mode of the elevator
      * @param Integer representing the mode
      * @return boolean - Whether the mode was successfully set
      */

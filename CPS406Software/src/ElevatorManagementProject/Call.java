@@ -1,5 +1,13 @@
 package ElevatorManagementProject;
 
+/*
+ * Call object holds information to be passed between ElevatorManagement and calling object
+ *Floor current: the floor the call was made on
+ *Floor Request: The floor the call requests
+ *Elevator elevator: The elevator the call will move - null if elevator is to be decided by ElevatorManagemnt
+ *int direction: The direction of movement 
+ */
+
 public class Call 
 {
 	Floor current;

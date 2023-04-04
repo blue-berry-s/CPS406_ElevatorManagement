@@ -95,8 +95,9 @@ public class SpecialModeHandler {
 	//resets elevators, deactivates the alarm
 	/**
 	 *@return boolean - returns True if mode was successfully deactivated, False otherwise
+	 * @throws InterruptedException 
 	 */
-	public void deactivateFireEmergency() {
+	public void deactivateFireEmergency() throws InterruptedException {
 		boolean modeCheck = false; 
 		SpecialModes mode = null; 
 		if (manager.getManagementModes() != null) {

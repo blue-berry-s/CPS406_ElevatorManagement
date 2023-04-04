@@ -50,20 +50,13 @@ public class Floor {
 		
 	}
 		
-	/**@JOSH should throw an error for invalid floor
+	/*
 	 *setFloor: sets the current floor
 	 *  
 	 * @param int - integer that represents the current floor number
 	 */
 	public void setFloor(int floor) {
-		
-		//Accounts for invalid floors 
-		if (floor == 1 || floor == 2) {
-			this.floor = floor;
-		}
-		else {
-			System.out.println("Invalid floor");
-		}
+		this.floor = floor;
 	}
 	
 	public void incrementFloor() {
